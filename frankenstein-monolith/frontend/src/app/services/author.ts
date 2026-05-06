@@ -13,7 +13,7 @@ export interface Author {
   providedIn: 'root'
 })
 export class AuthorService {
-  private apiUrl = 'http://localhost:8080/api/v1/authors'; // Redesigned path
+  private apiUrl = 'http://localhost:8080/authors'; 
 
   constructor(private http: HttpClient) { }
 

@@ -7,6 +7,7 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   template: `
     <main>
+      <h1 style="text-align: center; color: white;">DevOps Lab: Hexagonal Refactoring</h1>
       <router-outlet></router-outlet>
     </main>
   `,

@@ -1,0 +1,6 @@
+/home/sergio/backendAvancado/frankenstein-monolith/src/main/java/com/example/frankenstein/model/Author.java
+/home/sergio/backendAvancado/frankenstein-monolith/src/main/java/com/example/frankenstein/FrankensteinApplication.java
+/home/sergio/backendAvancado/frankenstein-monolith/src/main/java/com/example/frankenstein/repository/AuthorRepository.java
+/home/sergio/backendAvancado/frankenstein-monolith/src/main/java/com/example/frankenstein/controller/AuthorController.java
+/home/sergio/backendAvancado/frankenstein-monolith/src/main/java/com/example/frankenstein/config/SecurityConfig.java
+/home/sergio/backendAvancado/frankenstein-monolith/src/main/java/com/example/frankenstein/model/Book.java

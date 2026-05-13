@@ -12,8 +12,22 @@
     </div>
   </div>
 
+  <!-- Actual Data -->
+  <div class="grid" *ngIf="!loading && authors.length > 0">
+    <div class="glass-card author-card" *ngFor="let author of authors">
+      <div class="card-content">
+        <h3>{{ author.name }}</h3>
+        <p class="cpf">CPF: {{ author.cpf }}</p>
+        <p class="income">Income: {{ author.annualIncome | currency:'USD' }}</p>
+      </div>
+      <div class="actions">
+        <button class="btn-delete" (click)="deleteAuthor(author.id)">Delete</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Skeletons (Placeholders) -->
-  <div class="grid">
+  <div class="grid" *ngIf="loading">
     <div class="glass-card skeleton-card" *ngFor="let i of [1,2,3,4,5,6]">
       <div class="skeleton-line title"></div>
       <div class="skeleton-line text"></div>

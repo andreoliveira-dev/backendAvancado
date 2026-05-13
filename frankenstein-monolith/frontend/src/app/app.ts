@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
-import { AuthorListComponent } from './components/author-list/author-list';
+import { RouterOutlet, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AuthorListComponent],
+  imports: [RouterOutlet, RouterModule],
   template: `
     <main>
       <nav class="glass-nav">
-        <div class="logo">FRANKENSTEIN <span>MONOLITH</span></div>
+        <div class="logo">Backend <span>Avançado</span></div>
+        <div class="nav-links">
+          <a routerLink="/authors">Autores</a>
+          <a routerLink="/books">Livros</a>
+        </div>
       </nav>
       
-      <app-author-list></app-author-list>
+      <router-outlet></router-outlet>
       
       <footer class="footer">
         <p>LABORATÓRIO DE BACKEND AVANÇADO - SPRING BOOT</p>
@@ -28,19 +32,22 @@ import { AuthorListComponent } from './components/author-list/author-list';
       align-items: center;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    .nav-links a:hover {
+      opacity: 1;
+    }
     .logo {
       font-weight: 800;
       letter-spacing: 2px;
     }
     .logo span { color: #818cf8; }
-    .status-badge {
-      background: rgba(239, 68, 68, 0.2);
-      color: #ef4444;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
     .footer {
       position: fixed;
       bottom: 0;
@@ -50,6 +57,7 @@ import { AuthorListComponent } from './components/author-list/author-list';
       font-size: 0.7rem;
       color: #475569;
       letter-spacing: 3px;
+      background: rgba(15, 23, 42, 0.9);
     }
   `]
 })

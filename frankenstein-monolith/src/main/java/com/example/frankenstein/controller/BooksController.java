@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.frankenstein.model.Book;
+import com.example.frankenstein.model.BookRequestDTO;
+import com.example.frankenstein.repository.AuthorRepository;
 import com.example.frankenstein.repository.BookRepository;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequestMapping("/api/v1/books")
@@ -23,6 +27,9 @@ public class BooksController {
 
     @Autowired
     private BookRepository repository;
+
+    @Autowired
+    private AuthorRepository    authorRepository;
 
     @GetMapping
     public ResponseEntity<List<Book>> listAll(){
@@ -35,15 +42,20 @@ public class BooksController {
     }   
 
 
-    public ResponseEntity<Book> createBook(@RequestBody Book book){
-        if (book.getTitle() == null  || !book.getTitle().isBlank()){
+    @PostMapping
+    public ResponseEntity<Book> createBook(@RequestBody BookRequestDTO book){
+
+        if (book.title() == null  || book.title().isBlank()){
              throw new RuntimeException("titulo invalido!");
         }
 
-        if(book.getAuthor() == null){
-            throw new RuntimeException("livro sem autor!");
-        }   
-        Book savedBook = repository.save(book);
+        var author = authorRepository.findById((long) book.author()).orElseThrow(() -> new RuntimeException("Autor não encontrado!"));
+
+        Book newBook = new Book();
+        newBook.setTitle(book.title());
+        newBook.setAuthor(author);
+
+        Book savedBook = repository.save(newBook);
 
         URI uri = URI.create("/books/" + savedBook.getId());
 

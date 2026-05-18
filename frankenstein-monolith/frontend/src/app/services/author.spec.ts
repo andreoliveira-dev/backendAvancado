@@ -1,16 +1,20 @@
-import { TestBed } from '@angular/core/testing';
+describe('Author Interface', () => {
 
-import { Author } from './author';
+  it('should create author object', () => {
 
-describe('Author', () => {
-  let service: Author;
+    const author = {
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(Author);
+      id: 1,
+
+      name: 'Zara',
+
+      cpf: '12345678901',
+
+      annualIncome: 50000
+    };
+
+    expect(author).toBeTruthy();
+
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
 });

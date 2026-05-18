@@ -1,46 +1,322 @@
-# 🔍 Atividade: O Diagnóstico do Monolito "Frankenstein"
+# The Refactored Monolith — Codex of Authors & Books
 
-Bem-vindo ao Monolito Frankenstein! Este projeto foi construído com diversas falhas conceituais propositais. Seu objetivo é identificar, diagnosticar e refatorar o código seguindo as melhores práticas de mercado: **SOLID**, **Arquitetura Hexagonal** e **TDD**.
+> “Todo sistema legado carrega cicatrizes. Alguns chamam isso de dívida técnica. Outros chamam de dungeon.”
 
-## 🛠️ O Projeto
-O sistema é um gerenciador de Autores e Livros. Atualmente, ele possui um Controller gordo, uma segurança inexistente e um banco de dados que chora por performance.
+Projeto acadêmico originalmente desenvolvido utilizando:
 
----
+* Angular
+* Spring Boot
 
-## 🚩 Task 1: O Mistério do Banco de Dados (Nível Spring Data)
-**O Erro:** A relação `@OneToMany` na entidade `Author` está configurada de forma ineficiente.
-**O Desafio:** 
-1. Popule o banco com cerca de 50 autores, cada um com alguns livros.
-2. Acesse o endpoint `GET /authors`.
-3. Olhe o log do console. **Por que o Spring está fazendo 50 selects para trazer 50 itens?**
-4. **Resolução:** Refatore a consulta para utilizar `JOIN FETCH` ou mude a estratégia de carga para evitar o problema do **N+1**.
+O objetivo deste projeto foi reconstruir completamente o backend da aplicação, substituindo a arquitetura original em Spring Boot por uma nova implementação utilizando Django REST Framework, mantendo compatibilidade total com o frontend Angular já existente.
 
 ---
 
-## 🚩 Task 2: A Segurança de Papel (Nível Spring Security)
-**O Erro:** O `SecurityConfig` está configurado com `permitAll()` em tudo e utiliza credenciais hardcoded em memória.
-**O Desafio:**
-1. Restrinja o endpoint `DELETE /authors/{id}` para que APENAS usuários com a Role `ADMIN` possam acessá-lo.
-2. Implemente uma autenticação real usando **JWT (JSON Web Token)**.
-3. Remova as senhas do código.
+# Objetivo do Projeto
+
+O sistema original possuía diversos problemas estruturais propositalmente inseridos para fins educacionais:
+
+* Controller excessivamente acoplado;
+* Segurança inexistente;
+* Problemas de performance;
+* Violação de princípios SOLID;
+* Ausência de separação arquitetural;
+* Exposição direta de entidades;
+* Estrutura monolítica frágil.
+
+A missão foi transformar o “Monolito Frankenstein” em uma aplicação moderna, desacoplada e organizada.
 
 ---
 
-## 🚩 Task 3: O Service "Gordo" (Nível Clean Code/Java)
-**O Erro:** Toda a lógica de validação de CPF, cálculo de imposto e conversão de dados está socada dentro do `AuthorController`.
-**O Desafio:**
-1. Aplique o Princípio da Responsabilidade Única (SRP).
-2. Mova a lógica para a camada de **Service**.
-3. Utilize **Records** (Java modern) para criar **DTOs** e evitar expor a entidade JPA diretamente na API.
-4. Implemente **Arquitetura Hexagonal**: Separe o domínio (lógica) de adaptadores (controller/repository).
+# A Grande Refatoração
+
+O backend original em Spring Boot NÃO foi convertido linha por linha.
+
+A abordagem utilizada foi:
+
+* engenharia reversa do frontend Angular;
+* análise dos contratos REST;
+* estudo da arquitetura original;
+* reimplementação completa em Django;
+* preservação da compatibilidade funcional.
+
+O frontend Angular foi tratado como a principal fonte de verdade comportamental da aplicação.
 
 ---
 
-## 🧪 Desafio Global: TDD
-Para cada refatoração, **crie testes unitários ou de integração primeiro**. Prove que o erro existe com um teste falhando e depois prove que ele foi resolvido com o teste passando.
+# Stack Utilizada
+
+## Frontend
+
+* Angular
+* TypeScript
+* Standalone Components
+* RxJS
+
+## Backend
+
+* Django
+* Django REST Framework
+* SimpleJWT
+* SQLite
+* Faker
 
 ---
 
-## Como rodar?
-1. `mvn spring-boot:run`
-2. H2 Console: `http://localhost:8080/h2-console` (JDBC URL: `jdbc:h2:mem:testdb`)
+# Estrutura do Projeto
+
+```text
+frankenstein-monolith/
+│
+├── frontend/
+│
+├── backend/
+│   ├── authors/
+│   ├── books/
+│   ├── config/
+│   ├── manage.py
+│   └── requirements.txt
+│
+├── docs/
+│
+└── README.md
+```
+
+---
+
+# Funcionalidades Implementadas
+
+## Sistema de Autores
+
+* Listagem de autores
+* Cadastro de autores
+* Exclusão de autores
+* Relacionamento com livros
+
+## Sistema de Livros
+
+* Listagem de livros
+* Cadastro de livros
+* Exclusão de livros
+* Relacionamento com autores
+
+## API REST
+
+* Endpoints RESTful
+* Serialização segura
+* JSON padronizado
+* Compatibilidade com Angular
+
+## Segurança
+
+* JWT Authentication
+* Restrição de rotas
+* Remoção de credenciais hardcoded
+
+---
+
+# Tasks da Atividade — Resolvidas
+
+---
+
+## Task 1 — O Mistério do Banco de Dados
+
+### Problema Original
+
+A estrutura original sofria com problema de:
+
+```text
+N + 1 Query Problem
+```
+
+O sistema realizava múltiplas consultas desnecessárias ao carregar autores e livros.
+
+### Solução Aplicada
+
+No backend Django foram utilizados:
+
+* `select_related`
+* `prefetch_related`
+* otimização ORM
+* carregamento eficiente de relacionamentos
+
+### Resultado
+
+* menos consultas SQL;
+* melhor performance;
+* redução de carga no banco.
+
+---
+
+## Task 2 — A Segurança de Papel
+
+### Problema Original
+
+O backend original utilizava:
+
+* `permitAll()`;
+* credenciais hardcoded;
+* ausência de autenticação real.
+
+### Solução Aplicada
+
+Foi implementado:
+
+* JWT Authentication;
+* controle de permissões;
+* autenticação desacoplada;
+* proteção de endpoints críticos.
+
+### Resultado
+
+* API protegida;
+* autenticação moderna;
+* maior segurança da aplicação.
+
+---
+
+## Task 3 — O Service Gordo
+
+### Problema Original
+
+Toda lógica estava concentrada no controller:
+
+* validações;
+* regras de negócio;
+* transformação de dados;
+* acesso ao banco.
+
+### Solução Aplicada
+
+Foi realizada separação arquitetural utilizando:
+
+* Services;
+* Serializers;
+* camada de domínio;
+* responsabilidade única;
+* arquitetura desacoplada.
+
+### Resultado
+
+* código mais limpo;
+* manutenção simplificada;
+* melhor escalabilidade;
+* separação clara de responsabilidades.
+
+---
+
+# Integração Angular + Django
+
+O frontend Angular permaneceu funcional sem alterações estruturais profundas.
+
+A nova API Django foi construída mantendo:
+
+* endpoints compatíveis;
+* formatos JSON esperados;
+* fluxo original da aplicação;
+* comportamento REST equivalente.
+
+---
+
+# Seed de Dados
+
+O sistema possui população automatizada de dados utilizando Faker.
+
+Permite:
+
+* testes realistas;
+* validação de performance;
+* demonstração visual da aplicação.
+
+---
+
+# Como Rodar o Projeto
+
+---
+
+# Backend
+
+```bash
+cd backend
+
+pip install -r requirements.txt
+
+python manage.py migrate
+
+python manage.py runserver
+```
+
+Backend:
+
+```text
+http://localhost:8000
+```
+
+---
+
+# Frontend
+
+```bash
+cd frontend
+
+npm install
+
+npm start
+```
+
+Frontend:
+
+```text
+http://localhost:4200
+```
+
+---
+
+# Endpoints
+
+## Authors
+
+```text
+GET     /api/v1/authors
+POST    /api/v1/authors
+DELETE  /api/v1/authors/{id}
+```
+
+## Books
+
+```text
+GET     /api/v1/books
+POST    /api/v1/books
+DELETE  /api/v1/books/{id}
+```
+
+---
+
+# Considerações Técnicas
+
+Este projeto representa uma reconstrução arquitetural completa do backend original.
+
+O foco principal foi:
+
+* desacoplamento;
+* clareza estrutural;
+* compatibilidade;
+* manutenção;
+* escalabilidade;
+* aplicação de boas práticas modernas.
+
+---
+
+# Considerações Finais
+
+O antigo monolito não foi destruído.
+
+Foi estudado.
+Mapeado.
+Compreendido.
+
+Depois disso, reescrito.
+
+Como qualquer dungeon antiga:
+o problema nunca era apenas o monstro.
+
+Era a arquitetura do lugar.

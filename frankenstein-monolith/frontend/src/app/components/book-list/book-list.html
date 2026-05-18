@@ -1,24 +1,101 @@
 <div class="container">
-    <div class="header">
-        <h1>Book Management</h1>
-        <p class="subtitle">Hexagonal Design System - v1.0.0</p>
+
+  <div class="header">
+
+    <h1>Book Management</h1>
+
+    <p class="subtitle">
+      Hexagonal Design System - v2.0.0
+    </p>
+
+  </div>
+
+  <!-- ERROR -->
+  <div
+    *ngIf="errorMessage"
+    class="error-glass">
+
+    <div class="error-icon">
+      ❌
     </div>
 
-    <div *ngIf="errorMessage" class="error-glass">
-        <div class="error-icon">❌</div>
-        <div class="error-text">
-            <strong>CONNECTION ERROR</strong>
-            <p>{{ errorMessage }}</p>
-        </div>
+    <div class="error-text">
+
+      <strong>
+        CONNECTION ERROR
+      </strong>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
     </div>
 
-    <!-- Skeletons (Placeholders) -->
-    <div class="grid">
-        <div class="glass-card skeleton-card" *ngFor="let i of [1,2,3,4,5,6]">
-            <div class="skeleton-line title"></div>
-            <div class="skeleton-line text"></div>
-            <div class="skeleton-line text short"></div>
-            <div class="skeleton-btn"></div>
-        </div>
+  </div>
+
+  <!-- BOOKS -->
+  <div
+    class="grid"
+    *ngIf="!loading && books.length > 0">
+
+    <div
+      class="glass-card author-card"
+      *ngFor="let book of books">
+
+      <div class="card-content">
+
+        <h3>
+          {{ book.title }}
+        </h3>
+
+        <p>
+          Author:
+          {{ book.author.name }}
+        </p>
+
+        <p *ngIf="book.price">
+          Price:
+          {{ book.price | currency:'USD' }}
+        </p>
+
+        <p *ngIf="book.launchDate">
+          Launch:
+          {{ book.launchDate }}
+        </p>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          class="btn-delete"
+          (click)="deleteBook(book.id)">
+
+          Delete
+
+        </button>
+
+      </div>
+
     </div>
+
+  </div>
+
+  <!-- SKELETON -->
+  <div
+    class="grid"
+    *ngIf="loading">
+
+    <div
+      class="glass-card skeleton-card"
+      *ngFor="let i of [1,2,3,4]">
+
+      <div class="skeleton-line title"></div>
+
+      <div class="skeleton-line text"></div>
+
+    </div>
+
+  </div>
+
 </div>

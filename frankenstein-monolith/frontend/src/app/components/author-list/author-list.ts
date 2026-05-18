@@ -1,6 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthorService, Author } from '../../services/author';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+
+import { CommonModule }
+from '@angular/common';
+
+import {
+  AuthorService,
+  Author
+} from '../../services/author';
 
 @Component({
   selector: 'app-author-list',
@@ -9,34 +18,71 @@ import { CommonModule } from '@angular/common';
   templateUrl: './author-list.html',
   styleUrls: ['./author-list.css']
 })
-export class AuthorListComponent implements OnInit {
+export class AuthorListComponent
+implements OnInit {
+
   authors: Author[] = [];
+
   loading = true;
+
   errorMessage = '';
 
-  constructor(private authorService: AuthorService) {}
+  constructor(
+    private authorService: AuthorService
+  ) {}
 
   ngOnInit(): void {
+
     this.loadAuthors();
   }
 
   loadAuthors(): void {
-    this.authorService.getAuthors().subscribe({
-      next: (data) => {
-        this.authors = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.errorMessage = 'CRITICAL ERROR: Backend connection refused. API endpoint /api/v1/authors not found.';
-        this.loading = false;
-        console.error(err);
-      }
-    });
+
+    this.loading = true;
+
+    this.authorService.getAuthors()
+      .subscribe({
+
+        next: (data) => {
+
+          this.authors = data;
+
+          this.loading = false;
+
+          this.errorMessage = '';
+        },
+
+        error: (err) => {
+
+          this.loading = false;
+
+          this.errorMessage =
+            'Could not connect to Django backend API';
+
+          console.error(err);
+        }
+      });
   }
 
-  deleteAuthor(id: number | undefined): void {
-    if (id) {
-      this.authorService.deleteAuthor(id).subscribe(() => this.loadAuthors());
-    }
+  deleteAuthor(
+    id: number | undefined
+  ): void {
+
+    if (!id) return;
+
+    this.authorService.deleteAuthor(id)
+      .subscribe({
+
+        next: () => {
+
+          // AUTO REFRESH
+          this.loadAuthors();
+        },
+
+        error: (err) => {
+
+          console.error(err);
+        }
+      });
   }
 }
